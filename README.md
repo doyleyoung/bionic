@@ -40,7 +40,7 @@ dotnet build -c Release /t:pack
 
 ### Install Bionic CLI
 ```bash
-dotnet tool install --global Bionic --version 1.0.0
+dotnet tool install --global Bionic --version 1.0.1
 ```
 
 ### Before you start, enhance your existing Blazor project (required once) 
