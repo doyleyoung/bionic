@@ -1,14 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Text;
 using McMaster.Extensions.CommandLineUtils;
 
 namespace Bionic {
-  
   [Command(Description = "🤖 Bionic - An Ionic CLI clone for Blazor projects")]
   class Program {
     private static List<string> commandOptions = new List<string> {"start", "generate"};
     private static List<string> generateOptions = new List<string> {"component", "page", "provider"};
+    private static string APP_CSS_PATH = @"App.scss";
+
 
     public static int Main(string[] args) => CommandLineApplication.Execute<Program>(args);
 
@@ -39,6 +42,7 @@ namespace Bionic {
 
           option = command;
         }
+
         command = "generate";
       }
 
@@ -75,30 +79,76 @@ namespace Bionic {
 
       return true;
     }
-    
-    private static int SetupBionic() {
+
+    private int SetupBionic() {
       Console.WriteLine($"🤖  Preparing your Bionic Project...");
-      
+
+      // 1. Create App.scss
+      var alreadyStarted = InitAppCss();
+
+      if (alreadyStarted) {
+        alreadyStarted = Prompt.GetYesNo(
+          "Project seems to have been already started. Are you sure you want to continue ?",
+          false,
+          promptColor: ConsoleColor.DarkGreen
+        );
+        if (!alreadyStarted) {
+          Console.WriteLine("Ok! Bionic start canceled.");
+          return 0;
+        }
+      }
+
+      // 1. Install Bionic Templates
+      Process.Start(DotNetExe.FullPathOrDefault(), "new -i BionicTemplates")?.WaitForExit();
+
       // Steps:
-      // 1. Create Components directory (if not available)
       // 2. Create App.scss (if not available)
       // 3. Add scss compilation target to solution
-      // 4. Install Bionic Templates
 
       return 0;
     }
 
     private void GenerateArtifact() {
       Console.WriteLine($"🚀  Generating a {option} named {artifact}");
-      
-      // Steps:
-      // 1. Create Components directory (if not available)
-      // 2. Generate Component templates for cshtml and scss
-      // 3. Create App.scss (if not available)
-      // 4. Add new import to respective App.scss section
-      
-      Process.Start(DotNetExe.FullPathOrDefault(), $"new bionic.component -n {artifact} -o ./Components")?.WaitForExit();
-      // dotnet new bionic.component -n LoginComponent -o ./Components
+      Process.Start(
+        DotNetExe.FullPathOrDefault(),
+        $"new bionic.{option} -n {artifact} -o ./{ToCamelCase(option)}s"
+      )?.WaitForExit();
+      IntroduceAppCssImport($"{ToCamelCase(option)}s", artifact);
+    }
+
+    private bool InitAppCss() {
+      if (!File.Exists(APP_CSS_PATH)) {
+        using (var sw = File.CreateText(APP_CSS_PATH)) {
+          sw.WriteLine("// WARNING - This file is automatically updated by Bionic CLI, please do not remove");
+          sw.WriteLine("\n// Components\n\n// Pages\n");
+        }
+
+        return false;
+      }
+
+      return true;
+    }
+
+    private void IntroduceAppCssImport(string type, string artifactName) {
+      var text = new StringBuilder();
+
+      foreach (string s in File.ReadAllLines(APP_CSS_PATH)) {
+        if (s.StartsWith($"// {type}")) {
+          text.AppendLine($"{s}\n@import \"{type}/{artifactName}.scss\";");
+        }
+        else {
+          text.AppendLine(s);
+        }
+      }
+
+      using (var file = new StreamWriter(File.Create(APP_CSS_PATH))) {
+        file.Write(text.ToString());
+      }
+    }
+
+    private static string ToCamelCase(string str) {
+      return string.IsNullOrEmpty(str) || str.Length < 1 ? "" : char.ToUpperInvariant(str[0]) + str.Substring(1);
     }
   }
 }
