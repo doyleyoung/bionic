@@ -6,7 +6,7 @@ An Ionic CLI clone for Blazor projects
 
 Before we start, make sure sass is installed and available in your terminal path.
 You can install sass from [here](https://sass-lang.com/install).
-Esure availability by executing scss command:
+Ensure availability by executing scss command:
 ```bash
 scss --version
 Ruby Sass 3.5.6
