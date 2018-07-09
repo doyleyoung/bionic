@@ -4,12 +4,18 @@ An Ionic CLI clone for Blazor projects
 
 ## Quick Start
 
-1. Create a [Blazor App](https://blazor.net/docs/get-started.html).
-2. Install Bionic: ```dotnet tool install --global Bionic``` (Required once)
+The following steps are only required to be executed once:
+
+1. Create a [Blazor App](https://blazor.net/docs/get-started.html)
+2. Install Bionic: ```dotnet tool install --global Bionic```
 3. Prepare Blazor project for Bionic: ```bionic start```
+
+The next steps are part of your day-to-day development:
+
 4. Run project: ```dotnet watch run```
-5. Create a new component: ```bionic generate component CounterComponent```
-6. Edit component and reuse it anywhere you want...
+5. In a secondary terminal, cd into your project root directory
+6. Create a new component: ```bionic generate component CounterComponent```
+7. Edit component and reuse it anywhere you want...
 
 ## Updating Bionic
 
