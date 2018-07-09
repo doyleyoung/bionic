@@ -2,34 +2,34 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using McMaster.Extensions.CommandLineUtils;
 
 namespace Bionic {
   [Command(Description = "🤖 Bionic - An Ionic CLI clone for Blazor projects")]
   class Program {
-    private static List<string> commandOptions = new List<string> {"start", "generate"};
-    private static List<string> generateOptions = new List<string> {"component", "page", "provider"};
-    private static string APP_CSS_PATH = @"App.scss";
+    private static readonly List<string> commandOptions = new List<string> {"start", "generate"};
+    private static readonly List<string> generateOptions = new List<string> {"component", "page", "provider"};
+    private static readonly string AppCssPath = @"App.scss";
 
-
-    public static int Main(string[] args) => CommandLineApplication.Execute<Program>(args);
-
-    [Argument(0, Description = "Project Command (generate)")]
-    public string command { get; set; }
+    [Argument(0, Description = "Project Command (start, generate)")]
+    private string command { get; set; }
 
     [Argument(1, Description = "Command Option")]
-    public string option { get; set; }
+    private string option { get; set; }
 
     [Argument(2, Description = "Artifact Name")]
-    public string artifact { get; set; }
+    private string artifact { get; set; }
 
     // Commands
     [Option("-s|--start", Description = "Prepares Blazor project to mimic Ionic structure")]
-    public bool start { get; set; } = false;
+    private bool start { get; set; } = false;
 
     [Option("-g|--generate", Description = "Generate components, pages, and providers/services")]
-    public bool generate { get; set; } = false;
+    private bool generate { get; set; } = false;
+
+    public static int Main(string[] args) => CommandLineApplication.Execute<Program>(args);
 
     private int OnExecute() {
       if (start || command == "start") return SetupBionic();
@@ -80,10 +80,17 @@ namespace Bionic {
       return true;
     }
 
-    private int SetupBionic() {
+    private static int SetupBionic() {
       Console.WriteLine($"🤖  Preparing your Bionic Project...");
 
-      // 1. Create App.scss
+      // 1. Get project file name
+      var projectFileName = GetProjectFileName();
+      if (projectFileName == null) {
+        Console.WriteLine($"☠ No C# project found. Please make sure you are in the root of a C# project.");
+        return 1;
+      }
+
+      // 2. Create App.scss
       var alreadyStarted = InitAppCss();
 
       if (alreadyStarted) {
@@ -98,12 +105,14 @@ namespace Bionic {
         }
       }
 
-      // 1. Install Bionic Templates
-      Process.Start(DotNetExe.FullPathOrDefault(), "new -i BionicTemplates")?.WaitForExit();
+      // 3. Inject App.css in index.html
+      InjectAppCssInIndexHtml();
 
-      // Steps:
-      // 2. Create App.scss (if not available)
-      // 3. Add scss compilation target to solution
+      // 4. Inject targets in .csproj
+      IntroduceProjectTargets(projectFileName);
+
+      // 5. Install Bionic Templates
+      Process.Start(DotNetExe.FullPathOrDefault(), "new -i BionicTemplates")?.WaitForExit();
 
       return 0;
     }
@@ -117,38 +126,65 @@ namespace Bionic {
       IntroduceAppCssImport($"{ToCamelCase(option)}s", artifact);
     }
 
-    private bool InitAppCss() {
-      if (!File.Exists(APP_CSS_PATH)) {
-        using (var sw = File.CreateText(APP_CSS_PATH)) {
-          sw.WriteLine("// WARNING - This file is automatically updated by Bionic CLI, please do not remove");
-          sw.WriteLine("\n// Components\n\n// Pages\n");
-        }
+    private static bool InitAppCss() {
+      if (File.Exists(AppCssPath)) return true;
 
-        return false;
+      using (var sw = File.CreateText(AppCssPath)) {
+        sw.WriteLine("// WARNING - This file is automatically updated by Bionic CLI, please do not remove");
+        sw.WriteLine("\n// Components\n\n// Pages\n");
       }
 
-      return true;
+      return false;
     }
 
-    private void IntroduceAppCssImport(string type, string artifactName) {
-      var text = new StringBuilder();
+    private static void IntroduceAppCssImport(string type, string artifactName) {
+      SeekForLineStartingWithAndInsert(AppCssPath, $"// {type}", $"@import \"{type}/{artifactName}.scss\";");
+    }
 
-      foreach (string s in File.ReadAllLines(APP_CSS_PATH)) {
-        if (s.StartsWith($"// {type}")) {
-          text.AppendLine($"{s}\n@import \"{type}/{artifactName}.scss\";");
-        }
-        else {
-          text.AppendLine(s);
-        }
-      }
+    private static void IntroduceProjectTargets(string projectFileName) {
+      const string content = @"
+    <!-- dotnet watch: https://github.com/aspnet/Docs/blob/master/aspnetcore/tutorials/dotnet-watch.md -->
+    <ItemGroup>
+        <DotNetCliToolReference Include=""Microsoft.DotNet.Watcher.Tools"" Version=""2.0.0"" />
+        <Watch Include=""**\*.scss"" />
+    </ItemGroup>
 
-      using (var file = new StreamWriter(File.Create(APP_CSS_PATH))) {
-        file.Write(text.ToString());
-      }
+    <Target Name=""CompileSCSS"" BeforeTargets=""Build"" Condition=""Exists('App.scss')"">
+        <Message Importance=""high"" Text=""Compiling SCSS"" />
+        <Exec Command=""scss --no-cache --update ./App.scss:./wwwroot/css/App.css"" />
+    </Target>";
+
+      SeekForLineStartingWithAndInsert(projectFileName, "</Project>", content, false);
+    }
+
+    private static void InjectAppCssInIndexHtml() {
+      SeekForLineStartingWithAndInsert(
+        "wwwroot/index.html",
+        "    <link href=\"css/site.css",
+        "    <link href=\"css/App.css\" rel=\"stylesheet\" />",
+        false
+      );
     }
 
     private static string ToCamelCase(string str) {
       return string.IsNullOrEmpty(str) || str.Length < 1 ? "" : char.ToUpperInvariant(str[0]) + str.Substring(1);
+    }
+
+    private static void SeekForLineStartingWithAndInsert(string fileName, string startsWith,
+      string contentToIntroduce, bool insertAfter = true) {
+      var text = new StringBuilder();
+
+      foreach (var s in File.ReadAllLines(fileName)) {
+        text.AppendLine(s.StartsWith(startsWith) ? (insertAfter ? $"{s}\n{contentToIntroduce}" : $"{contentToIntroduce}\n{s}") : s);
+      }
+
+      using (var file = new StreamWriter(File.Create(fileName))) {
+        file.Write(text.ToString());
+      }
+    }
+
+    private static string GetProjectFileName() {
+      return Directory.GetFiles("./", "*.csproj", SearchOption.TopDirectoryOnly).FirstOrDefault();
     }
   }
 }
