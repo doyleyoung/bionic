@@ -146,7 +146,7 @@ namespace Bionic {
     <!-- dotnet watch: https://github.com/aspnet/Docs/blob/master/aspnetcore/tutorials/dotnet-watch.md -->
     <ItemGroup>
         <DotNetCliToolReference Include=""Microsoft.DotNet.Watcher.Tools"" Version=""2.0.0"" />
-        <Watch Include=""**\*.scss"" />
+        <Watch Include=""**/*.cs;*.csproj;**/*.resx;**/*.cshtml;**/*.scss"" />
     </ItemGroup>
 
     <Target Name=""CompileSCSS"" BeforeTargets=""Build"" Condition=""Exists('App.scss')"">
