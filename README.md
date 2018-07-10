@@ -2,6 +2,8 @@
 
 An Ionic CLI clone for Blazor projects
 
+[![YouTube Video](https://img.youtube.com/vi/_YRR6L2Pzks/0.jpg)](https://www.youtube.com/watch?v=_YRR6L2Pzks)
+
 ## Quick Start
 
 Before we start, make sure sass is installed and available in your terminal path.
