@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BionicTemplates" Version="1.0.1" />
+    <PackageReference Include="BionicTemplates" Version="1.0.2" />
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.2.3" />
   </ItemGroup>
 
