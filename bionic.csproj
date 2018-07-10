@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
     <Configuration>Release</Configuration>
     <Description>Bionic - An Ionic CLI clone for Blazor projects</Description>
     <ToolCommandName>bionic</ToolCommandName>

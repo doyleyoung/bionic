@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using McMaster.Extensions.CommandLineUtils;
 
 namespace Bionic {
@@ -95,7 +96,7 @@ namespace Bionic {
 
       if (alreadyStarted) {
         alreadyStarted = Prompt.GetYesNo(
-          "Project seems to have been already started. Are you sure you want to continue ?",
+          "Project seems to have already been started. Are you sure you want to continue?",
           false,
           promptColor: ConsoleColor.DarkGreen
         );
@@ -119,10 +120,20 @@ namespace Bionic {
 
     private void GenerateArtifact() {
       Console.WriteLine($"🚀  Generating a {option} named {artifact}");
-      Process.Start(
-        DotNetExe.FullPathOrDefault(),
-        $"new bionic.{option} -n {artifact} -o ./{ToCamelCase(option)}s"
-      )?.WaitForExit();
+
+      if (option == "page") {
+        Process.Start(
+          DotNetExe.FullPathOrDefault(),
+          $"new bionic.{option} -n {artifact} -p /{ToPageName(artifact)} -o ./{ToCamelCase(option)}s"
+        )?.WaitForExit();
+      }
+      else if (option == "component") {
+        Process.Start(
+          DotNetExe.FullPathOrDefault(),
+          $"new bionic.{option} -n {artifact} -o ./{ToCamelCase(option)}s"
+        )?.WaitForExit();
+      }
+
       IntroduceAppCssImport($"{ToCamelCase(option)}s", artifact);
     }
 
@@ -135,6 +146,12 @@ namespace Bionic {
       }
 
       return false;
+    }
+
+    private static string ToPageName(string artifact) {
+      var rx = new Regex("[pP]age");
+      var name = rx.Replace(artifact, "").ToLower();
+      return string.IsNullOrEmpty(name) ? artifact.ToLower() : name;
     }
 
     private static void IntroduceAppCssImport(string type, string artifactName) {
