@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Version>1.0.4</Version>
+    <Version>1.0.5</Version>
     <Configuration>Release</Configuration>
     <Description>Bionic - An Ionic CLI clone for Blazor projects</Description>
     <ToolCommandName>bionic</ToolCommandName>
@@ -14,7 +14,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BionicTemplates" Version="1.0.2" />
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.2.3" />
   </ItemGroup>
 
