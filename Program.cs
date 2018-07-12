@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using McMaster.Extensions.CommandLineUtils;
@@ -11,8 +12,10 @@ namespace Bionic {
   [Command(Description = "🤖 Bionic - An Ionic CLI clone for Blazor projects")]
   class Program {
     private static readonly List<string> commandOptions = new List<string> {"start", "generate"};
-    private static readonly List<string> generateOptions = new List<string> {"component", "page", "provider"};
-    private static readonly string AppCssPath = @"App.scss";
+    private static readonly List<string> generateOptions = new List<string> {"component", "page", "provider", "service"};
+    private static readonly string AppCssPath = "App.scss";
+    private static readonly string ProgramPath = "Program.cs";
+    private static readonly Regex ServiceRegEx = new Regex(@"BrowserServiceProvider.*|\s*.*\s*\((\s*.*\s*.*)=>(.*|.*\s*)\{((.|\s)*)\}\)", RegexOptions.Compiled);
 
     [Argument(0, Description = "Project Command (start, generate)")]
     private string command { get; set; }
@@ -30,9 +33,14 @@ namespace Bionic {
     [Option("-g|--generate", Description = "Generate components, pages, and providers/services")]
     private bool generate { get; set; } = false;
 
+    [Option("-v|--version", Description = "Bionic version")]
+    private bool version { get; } = false;
+
     public static int Main(string[] args) => CommandLineApplication.Execute<Program>(args);
 
     private int OnExecute() {
+      if (version) return Version();
+
       if (start || command == "start") return SetupBionic();
 
       if (generate) {
@@ -126,15 +134,21 @@ namespace Bionic {
           DotNetExe.FullPathOrDefault(),
           $"new bionic.{option} -n {artifact} -p /{ToPageName(artifact)} -o ./{ToCamelCase(option)}s"
         )?.WaitForExit();
+        IntroduceAppCssImport($"{ToCamelCase(option)}s", artifact);
       }
       else if (option == "component") {
         Process.Start(
           DotNetExe.FullPathOrDefault(),
           $"new bionic.{option} -n {artifact} -o ./{ToCamelCase(option)}s"
         )?.WaitForExit();
+        IntroduceAppCssImport($"{ToCamelCase(option)}s", artifact);
+      } else if (option == "provider" || option == "service") {
+        Process.Start(
+          DotNetExe.FullPathOrDefault(),
+          $"new bionic.{option} -n {artifact} -o ./{ToCamelCase(option)}s"
+        )?.WaitForExit();
+        IntroduceServiceInBrowser(artifact);
       }
-
-      IntroduceAppCssImport($"{ToCamelCase(option)}s", artifact);
     }
 
     private static bool InitAppCss() {
@@ -181,6 +195,27 @@ namespace Bionic {
       );
     }
 
+    private static void IntroduceServiceInBrowser(string serviceName) {
+      var text = new StringBuilder();
+
+      string all = File.ReadAllText(ProgramPath);
+
+      var matches = ServiceRegEx.Matches(all);
+      var browserName = matches[0].Groups[1].Value.Trim().Trim(Environment.NewLine.ToCharArray());
+      var currentServices = matches[0].Groups[3].Value;
+      var currentServicesList = currentServices.Split("\n");
+      var lastEntry = currentServicesList.Last();
+      var newServices = $"{currentServices}    {browserName}.AddSingleton<I{serviceName}, {serviceName}>();\n{lastEntry}";
+
+      Console.WriteLine($"All: {all}");
+      Console.WriteLine($"Current: {currentServices}");
+      Console.WriteLine($"New: {newServices}");
+
+      using (var file = new StreamWriter(File.Create(ProgramPath))) {
+        file.Write(all.Replace(currentServices, newServices));
+      }
+    }
+
     private static string ToCamelCase(string str) {
       return string.IsNullOrEmpty(str) || str.Length < 1 ? "" : char.ToUpperInvariant(str[0]) + str.Substring(1);
     }
@@ -200,6 +235,14 @@ namespace Bionic {
 
     private static string GetProjectFileName() {
       return Directory.GetFiles("./", "*.csproj", SearchOption.TopDirectoryOnly).FirstOrDefault();
+    }
+
+    private static int Version() {
+      var informationlVersion = ((AssemblyInformationalVersionAttribute)Attribute.GetCustomAttribute(
+          Assembly.GetExecutingAssembly(), typeof(AssemblyInformationalVersionAttribute), false))
+        .InformationalVersion;
+      Console.WriteLine($"🤖 Bionic v{informationlVersion}");
+      return 0;
     }
   }
 }
