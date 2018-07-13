@@ -207,10 +207,6 @@ namespace Bionic {
       var lastEntry = currentServicesList.Last();
       var newServices = $"{currentServices}    {browserName}.AddSingleton<I{serviceName}, {serviceName}>();\n{lastEntry}";
 
-      Console.WriteLine($"All: {all}");
-      Console.WriteLine($"Current: {currentServices}");
-      Console.WriteLine($"New: {newServices}");
-
       using (var file = new StreamWriter(File.Create(ProgramPath))) {
         file.Write(all.Replace(currentServices, newServices));
       }
