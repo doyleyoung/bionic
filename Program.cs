@@ -15,7 +15,7 @@ namespace Bionic {
     private static readonly List<string> generateOptions = new List<string> {"component", "page", "provider", "service"};
     private static readonly string AppCssPath = "App.scss";
     private static readonly string ProgramPath = "Program.cs";
-    private static readonly Regex ServiceRegEx = new Regex(@"BrowserServiceProvider.*|\s*.*\s*\((\s*.*\s*.*)=>(.*|.*\s*)\{((.|\s)*)\}\)", RegexOptions.Compiled);
+    private static readonly Regex ServiceRegEx = new Regex(@"BrowserServiceProvider[^(]*\([\s]*(.*?)=>[\s]*{([^}]*)}", RegexOptions.Compiled);
 
     [Argument(0, Description = "Project Command (start, generate)")]
     private string command { get; set; }
@@ -202,7 +202,7 @@ namespace Bionic {
 
       var matches = ServiceRegEx.Matches(all);
       var browserName = matches[0].Groups[1].Value.Trim().Trim(Environment.NewLine.ToCharArray());
-      var currentServices = matches[0].Groups[3].Value;
+      var currentServices = matches[0].Groups[2].Value;
       var currentServicesList = currentServices.Split("\n");
       var lastEntry = currentServicesList.Last();
       var newServices = $"{currentServices}    {browserName}.AddSingleton<I{serviceName}, {serviceName}>();\n{lastEntry}";
