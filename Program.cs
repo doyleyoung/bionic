@@ -17,7 +17,7 @@ namespace Bionic {
     private static readonly string ProgramPath = "Program.cs";
     private static readonly Regex ServiceRegEx = new Regex(@"BrowserServiceProvider[^(]*\([\s]*(.*?)=>[\s]*{([^}]*)}", RegexOptions.Compiled);
 
-    [Argument(0, Description = "Project Command (start, generate)")]
+    [Argument(0, Description = "Project Command (start, serve, generate)")]
     private string command { get; set; }
 
     [Argument(1, Description = "Command Option")]
@@ -36,12 +36,21 @@ namespace Bionic {
     [Option("-v|--version", Description = "Bionic version")]
     private bool version { get; } = false;
 
+    [Option("-u|--update", Description = "Bionic update")]
+    private bool update { get; } = false;
+
+    [Option("-un|--uninstall", Description = "Uninstall Bionic")]
+    private bool uninstall { get; } = false;
+
     public static int Main(string[] args) => CommandLineApplication.Execute<Program>(args);
 
     private int OnExecute() {
       if (version) return Version();
 
+      if (command == "serve") return ServeBlazor();
       if (start || command == "start") return SetupBionic();
+      if (update || command == "update") return UpdateBionic();
+      if (uninstall || command == "uninstall") return UninstallBionic();
 
       if (generate) {
         if (command != null) {
@@ -121,10 +130,16 @@ namespace Bionic {
       IntroduceProjectTargets(projectFileName);
 
       // 5. Install Bionic Templates
-      Process.Start(DotNetExe.FullPathOrDefault(), "new -i BionicTemplates")?.WaitForExit();
-
-      return 0;
+      return InstallBionicTemplates();
     }
+
+    private static int InstallBionicTemplates() => DotNet("new -i BionicTemplates");
+
+    private static int ServeBlazor() => DotNet("watch run");
+
+    private static int UpdateBionic() => DotNet("tool update -g Bionic");
+
+    private static int UninstallBionic() => DotNet("tool uninstall -g Bionic");
 
     private void GenerateArtifact() {
       Console.WriteLine($"🚀  Generating a {option} named {artifact}");
@@ -239,6 +254,12 @@ namespace Bionic {
         .InformationalVersion;
       Console.WriteLine($"🤖 Bionic v{informationlVersion}");
       return 0;
+    }
+
+    private static int DotNet(string cmd) {
+      var watcher = Process.Start(DotNetExe.FullPathOrDefault(), cmd);
+      watcher?.WaitForExit();
+      return watcher?.ExitCode ?? 1;
     }
   }
 }
