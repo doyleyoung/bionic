@@ -6,18 +6,24 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Runtime.InteropServices;
 using McMaster.Extensions.CommandLineUtils;
 
 namespace Bionic {
   [Command(Description = "🤖 Bionic - An Ionic CLI clone for Blazor projects")]
   class Program {
     private static readonly List<string> commandOptions = new List<string> {"start", "generate"};
-    private static readonly List<string> generateOptions = new List<string> {"component", "page", "provider", "service"};
+
+    private static readonly List<string> generateOptions = new List<string>
+      {"component", "page", "provider", "service"};
+
     private static readonly string AppCssPath = "App.scss";
     private static readonly string ProgramPath = "Program.cs";
-    private static readonly Regex ServiceRegEx = new Regex(@"BrowserServiceProvider[^(]*\([\s]*(.*?)=>[\s]*{([^}]*)}", RegexOptions.Compiled);
 
-    [Argument(0, Description = "Project Command (start, serve, generate)")]
+    private static readonly Regex ServiceRegEx =
+      new Regex(@"BrowserServiceProvider[^(]*\([\s]*(.*?)=>[\s]*{([^}]*)}", RegexOptions.Compiled);
+
+    [Argument(0, Description = "Project Command (docs, generate, info, serve, start, uninstall, update)")]
     private string command { get; set; }
 
     [Argument(1, Description = "Command Option")]
@@ -47,6 +53,8 @@ namespace Bionic {
     private int OnExecute() {
       if (version) return Version();
 
+      if (command == "docs") return OpenBlazorDocs();
+      if (command == "info") return Info();
       if (command == "serve") return ServeBlazor();
       if (start || command == "start") return SetupBionic();
       if (update || command == "update") return UpdateBionic();
@@ -141,6 +149,12 @@ namespace Bionic {
 
     private static int UninstallBionic() => DotNet("tool uninstall -g Bionic");
 
+    private static int OpenBlazorDocs() {
+      var browser = OpenUrl("https://blazor.net");
+      browser?.WaitForExit();
+      return browser?.ExitCode ?? 1;
+    }
+
     private void GenerateArtifact() {
       Console.WriteLine($"🚀  Generating a {option} named {artifact}");
 
@@ -157,7 +171,8 @@ namespace Bionic {
           $"new bionic.{option} -n {artifact} -o ./{ToCamelCase(option)}s"
         )?.WaitForExit();
         IntroduceAppCssImport($"{ToCamelCase(option)}s", artifact);
-      } else if (option == "provider" || option == "service") {
+      }
+      else if (option == "provider" || option == "service") {
         Process.Start(
           DotNetExe.FullPathOrDefault(),
           $"new bionic.{option} -n {artifact} -o ./{ToCamelCase(option)}s"
@@ -220,7 +235,8 @@ namespace Bionic {
       var currentServices = matches[0].Groups[2].Value;
       var currentServicesList = currentServices.Split("\n");
       var lastEntry = currentServicesList.Last();
-      var newServices = $"{currentServices}    {browserName}.AddSingleton<I{serviceName}, {serviceName}>();\n{lastEntry}";
+      var newServices =
+        $"{currentServices}    {browserName}.AddSingleton<I{serviceName}, {serviceName}>();\n{lastEntry}";
 
       using (var file = new StreamWriter(File.Create(ProgramPath))) {
         file.Write(all.Replace(currentServices, newServices));
@@ -236,7 +252,9 @@ namespace Bionic {
       var text = new StringBuilder();
 
       foreach (var s in File.ReadAllLines(fileName)) {
-        text.AppendLine(s.StartsWith(startsWith) ? (insertAfter ? $"{s}\n{contentToIntroduce}" : $"{contentToIntroduce}\n{s}") : s);
+        text.AppendLine(s.StartsWith(startsWith)
+          ? (insertAfter ? $"{s}\n{contentToIntroduce}" : $"{contentToIntroduce}\n{s}")
+          : s);
       }
 
       using (var file = new StreamWriter(File.Create(fileName))) {
@@ -248,8 +266,14 @@ namespace Bionic {
       return Directory.GetFiles("./", "*.csproj", SearchOption.TopDirectoryOnly).FirstOrDefault();
     }
 
+    private static int Info() {
+      Version();
+      Console.WriteLine();
+      return DotNet("--info");
+    }
+
     private static int Version() {
-      var informationlVersion = ((AssemblyInformationalVersionAttribute)Attribute.GetCustomAttribute(
+      var informationlVersion = ((AssemblyInformationalVersionAttribute) Attribute.GetCustomAttribute(
           Assembly.GetExecutingAssembly(), typeof(AssemblyInformationalVersionAttribute), false))
         .InformationalVersion;
       Console.WriteLine($"🤖 Bionic v{informationlVersion}");
@@ -260,6 +284,26 @@ namespace Bionic {
       var watcher = Process.Start(DotNetExe.FullPathOrDefault(), cmd);
       watcher?.WaitForExit();
       return watcher?.ExitCode ?? 1;
+    }
+
+    private static Process OpenUrl(string url) {
+      try {
+        return Process.Start(url);
+      }
+      catch {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+          url = url.Replace("&", "^&");
+          return Process.Start(new ProcessStartInfo("cmd", $"/c start {url}") {CreateNoWindow = true});
+        }
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
+          return Process.Start("xdg-open", url);
+        }
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) {
+          return Process.Start("open", url);
+        }
+      }
+
+      return null;
     }
   }
 }
