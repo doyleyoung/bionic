@@ -7,9 +7,28 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.WindowsRuntime;
 using McMaster.Extensions.CommandLineUtils;
 
 namespace Bionic {
+  enum ProjectType {
+    Standalone,
+    HostedServer,
+    HostedClient,
+    Unknown
+  }
+
+  struct ProjectInfo {
+    public string path;
+    public string filename;
+    public string dir;
+    public ProjectType projectType;
+  }
+
+  static class ExtMethods {
+    public static bool IsNullOrEmpty<T>(this IEnumerable<T> me) => !me?.Any() ?? true;
+  }
+
   [Command(Description = "🤖 Bionic - An Ionic CLI clone for Blazor projects")]
   class Program {
     private static readonly List<string> commandOptions = new List<string> {"start", "generate"};
@@ -22,6 +41,8 @@ namespace Bionic {
 
     private static readonly Regex ServiceRegEx =
       new Regex(@"BrowserServiceProvider[^(]*\([\s]*(.*?)=>[\s]*{([^}]*)}", RegexOptions.Compiled);
+
+    private static string adjustedDir;
 
     [Argument(0, Description = "Project Command (docs, generate, info, serve, start, uninstall, update)")]
     private string command { get; set; }
@@ -110,35 +131,60 @@ namespace Bionic {
       Console.WriteLine($"🤖  Preparing your Bionic Project...");
 
       // 1. Get project file name
-      var projectFileName = GetProjectFileName();
-      if (projectFileName == null) {
+      var projectFiles = GetProjectFiles();
+      if (projectFiles.IsNullOrEmpty()) {
         Console.WriteLine($"☠ No C# project found. Please make sure you are in the root of a C# project.");
         return 1;
       }
 
-      // 2. Create App.scss
-      var alreadyStarted = InitAppCss();
+      var currentDir = Directory.GetCurrentDirectory();
 
-      if (alreadyStarted) {
-        alreadyStarted = Prompt.GetYesNo(
-          "Project seems to have already been started. Are you sure you want to continue?",
-          false,
-          promptColor: ConsoleColor.DarkGreen
-        );
-        if (!alreadyStarted) {
-          Console.WriteLine("Ok! Bionic start canceled.");
-          return 0;
+      foreach (var pi in projectFiles) {
+        if (pi.projectType == ProjectType.Unknown) continue;
+
+        Directory.SetCurrentDirectory(pi.dir);
+
+        if (pi.projectType != ProjectType.HostedServer) {
+          // 2. Create App.scss
+          var alreadyStarted = InitAppCss();
+
+          if (alreadyStarted) {
+            alreadyStarted = Prompt.GetYesNo(
+              "Project seems to have already been started. Are you sure you want to continue?",
+              false,
+              promptColor: ConsoleColor.DarkGreen
+            );
+            if (!alreadyStarted) {
+              Console.WriteLine("Ok! Bionic start canceled.");
+              return 0;
+            }
+          }
+
+          // 3. Inject App.css in index.html
+          InjectAppCssInIndexHtml();
+
+          // 4. Inject targets in .csproj
+          IntroduceProjectTargets(pi);
+
+          // 5. Install Bionic Templates
+          InstallBionicTemplates();
         }
+        else {
+          // 1. Its Hosted ... Inject targets in .csproj
+          var client = projectFiles.FirstOrDefault(p => p.projectType == ProjectType.HostedClient);
+          if (client.filename == null) {
+            Console.WriteLine("☠  Unable to start project. Client directory for Hosted Blazor project was not found.");
+            return 1;
+          }
+          IntroduceProjectTargets(pi, Path.GetRelativePath(pi.dir, client.dir));
+        }
+
+        Directory.SetCurrentDirectory(currentDir);
       }
 
-      // 3. Inject App.css in index.html
-      InjectAppCssInIndexHtml();
+      if (adjustedDir != null) Directory.SetCurrentDirectory(adjustedDir);
 
-      // 4. Inject targets in .csproj
-      IntroduceProjectTargets(projectFileName);
-
-      // 5. Install Bionic Templates
-      return InstallBionicTemplates();
+      return 0;
     }
 
     private static int InstallBionicTemplates() => DotNet("new -i BionicTemplates");
@@ -202,18 +248,37 @@ namespace Bionic {
       SeekForLineStartingWithAndInsert(AppCssPath, $"// {type}", $"@import \"{type}/{artifactName}.scss\";");
     }
 
-    private static void IntroduceProjectTargets(string projectFileName) {
-      const string content = @"
+    private static void IntroduceProjectTargets(ProjectInfo projectInfo, string relativePath = "") {
+      string watcher = string.Format(@"
     <ItemGroup>
-        <Watch Include=""**/*.cshtml;**/*.scss"" Visible=""false""/>
-    </ItemGroup>
+        <Watch Include=""{0}**/*.cshtml;{0}**/*.scss"" Visible=""false""/>
+    </ItemGroup>", relativePath.IsNullOrEmpty() || relativePath.EndsWith("/") ? relativePath : $"{relativePath}/");
 
+      const string scssCompiler = @"
     <Target Name=""CompileSCSS"" BeforeTargets=""Build"" Condition=""Exists('App.scss')"">
         <Message Importance=""high"" Text=""Compiling SCSS"" />
         <Exec Command=""scss --no-cache --update ./App.scss:./wwwroot/css/App.css"" />
     </Target>";
 
-      SeekForLineStartingWithAndInsert(projectFileName, "</Project>", content, false);
+      string content = null;
+
+      switch (projectInfo.projectType) {
+        case ProjectType.Standalone:
+          content = $"{watcher}\n\n{scssCompiler}";
+          break;
+        case ProjectType.HostedServer:
+          content = $"{watcher}";
+          break;
+        case ProjectType.HostedClient:
+          content = $"{scssCompiler}";
+          break;
+        case ProjectType.Unknown:
+          return;
+        default:
+          return;
+      }
+
+      SeekForLineStartingWithAndInsert(projectInfo.filename, "</Project>", content, false);
     }
 
     private static void InjectAppCssInIndexHtml() {
@@ -262,8 +327,38 @@ namespace Bionic {
       }
     }
 
-    private static string GetProjectFileName() {
-      return Directory.GetFiles("./", "*.csproj", SearchOption.TopDirectoryOnly).FirstOrDefault();
+    private static ProjectInfo[] GetProjectFiles(bool onParent = false) {
+      var projectInfoList = GetProjectInfoList();
+      if (projectInfoList.Length == 1 && projectInfoList[0].projectType != ProjectType.Standalone && !onParent) {
+        adjustedDir = Directory.GetCurrentDirectory();
+        Directory.SetCurrentDirectory("../");
+        projectInfoList = GetProjectFiles(true);
+      }
+      return projectInfoList;
+    }
+
+    private static ProjectInfo[] GetProjectInfoList() {
+      var projectFiles = Directory.GetFiles("./", "*.csproj", SearchOption.AllDirectories);
+      return projectFiles.ToList().ConvertAll(path => {
+        var pi = new ProjectInfo {path = path};
+        pi.dir = Path.GetDirectoryName(path);
+        pi.filename = Path.GetFileName(path);
+        pi.projectType = ProjectType.Unknown;
+        if (FileContains(path, "Microsoft.AspNetCore.Blazor.Cli")) {
+          // Standalone
+          pi.projectType = ProjectType.Standalone;
+        }
+        else if (FileContains(path, "Microsoft.AspNetCore.Blazor.Server")) {
+          // Hosted Project - Server
+          pi.projectType = ProjectType.HostedServer;
+        }
+        else if (FileContains(path, "Microsoft.AspNetCore.Blazor.Build")) {
+          // Hosted Project - Client
+          pi.projectType = ProjectType.HostedClient;
+        }
+
+        return pi;
+      }).ToArray();
     }
 
     private static int Info() {
@@ -305,5 +400,7 @@ namespace Bionic {
 
       return null;
     }
+
+    private static bool FileContains(string path, string match) => File.ReadAllText(path).Contains(match);
   }
 }
