@@ -31,7 +31,7 @@ namespace Bionic {
 
   [Command(Description = "🤖 Bionic - An Ionic CLI clone for Blazor projects")]
   class Program {
-    private static readonly List<string> commandOptions = new List<string> {"start", "generate"};
+    private static readonly List<string> commandOptions = new List<string> {"docs", "generate", "info", "serve", "start",  "uninstall", "update"};
 
     private static readonly List<string> generateOptions = new List<string>
       {"component", "page", "provider", "service"};
