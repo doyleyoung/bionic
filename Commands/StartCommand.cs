@@ -1,14 +1,20 @@
 using System;
 using System.IO;
 using System.Linq;
+using Bionic.Factories;
 using Bionic.Project;
 using Bionic.Utils;
 using McMaster.Extensions.CommandLineUtils;
 
 namespace Bionic.Commands {
-  public class StartCommand : ICommand {
+  [Command(Description = "Prepares Blazor project to mimic Ionic structure")]
+  public class StartCommand : CommandBase, ICommand {
+    protected override int OnExecute(CommandLineApplication app) => SetupBionic();
+
     public int Execute() => SetupBionic();
     
+    public BionicCommandFactory Parent { get; }
+
     private static int SetupBionic() {
       Console.WriteLine($"🤖  Preparing your Bionic Project...");
 
