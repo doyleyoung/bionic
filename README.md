@@ -2,7 +2,7 @@
 
 An Ionic CLI clone for Blazor projects
 
-[![YouTube Video](https://img.youtube.com/vi/_NONCv-i4Q34/0.jpg)](https://youtu.be/NONCv-i4Q34)
+[![YouTube Video](https://img.youtube.com/vi/NONCv-i4Q34/0.jpg)](https://youtu.be/NONCv-i4Q34)
 
 ## Quick Start
 
