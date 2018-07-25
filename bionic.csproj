@@ -15,8 +15,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BionicPlugin" Version="0.0.1" />
     <PackageReference Include="BionicTemplates" Version="1.0.4" />
-    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.2.3" />
+    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.2.5" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="2.1.0" />
   </ItemGroup>
 
 </Project>

@@ -8,13 +8,17 @@ namespace Bionic.Factories {
   [Subcommand("docs", typeof(DocsCommand))]
   [Subcommand("generate", typeof(GenerateCommand))]
   [Subcommand("info", typeof(InfoCommand))]
+  [Subcommand("platform", typeof(PlatformCommand))]
   [Subcommand("serve", typeof(ServeCommand))]
   [Subcommand("start", typeof(StartCommand))]
   [Subcommand("uninstall", typeof(UninstallCommand))]
   [Subcommand("update", typeof(UpdateCommand))]
   [Subcommand("version", typeof(VersionCommand))]
   public class BionicCommandFactory {
-    private static readonly List<string> commandOptions = new List<string>
+    public static CommandLineApplication cla = null;
+    public static string[] mainArgs = {};
+
+    private static readonly IList<string> commandOptions = new List<string>
       {"docs", "generate", "info", "serve", "start", "uninstall", "update"};
 
     [Argument(0, Description = "Command Option")]
@@ -39,7 +43,7 @@ namespace Bionic.Factories {
     [Option("-un|--uninstall", Description = "Initiate Bionic self-destruct sequence")]
     private bool uninstall { get; } = false;
 
-    private int OnExecute() {
+    private int OnExecute(CommandLineApplication app) {
       if (start) return new StartCommand().Execute();
       if (uninstall) return new UninstallCommand().Execute();
       if (update) return new UpdateCommand().Execute();

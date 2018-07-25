@@ -7,10 +7,20 @@ namespace Bionic.Project {
     public static readonly string AppCssPath = "App.scss";
     public static string adjustedDir;
 
+    public static bool InClientOrStandaloneDir() => IsClientOrStandaloneDir(Directory.GetCurrentDirectory());
+
+    public static bool IsClientOrStandaloneDir(string dir) {
+      var projectInfoList = GetProjectInfoList();
+      return projectInfoList.Length == 1 && (
+               projectInfoList[0].projectType == ProjectType.Standalone ||
+               projectInfoList[0].projectType == ProjectType.HostedClient
+             );
+    }
+
     public static void RestoreAdjustedDir() {
       if (adjustedDir != null) Directory.SetCurrentDirectory(ProjectHelper.adjustedDir);
     }
-    
+
     public static ProjectInfo[] GetProjectFiles(bool onParent = false) {
       var projectInfoList = GetProjectInfoList();
       if (projectInfoList.Length == 1 && projectInfoList[0].projectType != ProjectType.Standalone && !onParent) {
@@ -18,6 +28,7 @@ namespace Bionic.Project {
         Directory.SetCurrentDirectory("../");
         projectInfoList = GetProjectFiles(true);
       }
+
       return projectInfoList;
     }
 

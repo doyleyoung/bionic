@@ -9,6 +9,9 @@ namespace Bionic {
   }
 
   class Program {
-    public static int Main(string[] args) => CommandLineApplication.Execute<BionicCommandFactory>(args);
+    public static int Main(string[] args) {
+      BionicCommandFactory.mainArgs = args;
+      return CommandLineApplication.Execute<BionicCommandFactory>(args);
+    }
   }
 }
