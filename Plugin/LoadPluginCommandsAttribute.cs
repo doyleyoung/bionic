@@ -13,7 +13,8 @@ namespace Bionic.Plugin {
     public void Apply(ConventionContext context) {
       context.Application.Description = "This command is defined in " + context.ModelType.Assembly.FullName;
 
-      if (!ProjectHelper.InClientOrStandaloneDir()) return;
+      if (!Directory.Exists($"{Directory.GetCurrentDirectory()}/.bionic") ||
+          !ProjectHelper.InClientOrStandaloneDir()) return;
 
       var plugins = Directory.GetDirectories($"{Directory.GetCurrentDirectory()}/.bionic", "Bionic*Plugin");
       foreach (var path in plugins) {

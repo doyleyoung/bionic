@@ -36,7 +36,6 @@ namespace Bionic.Commands {
         return 0;
       }
 
-
       if (IsPackageAvailable(packageId)) {
         Console.WriteLine($"☕  Found it! Adding {PlatformName} plugin...");
         Console.WriteLine(InstallPackage(packageId)

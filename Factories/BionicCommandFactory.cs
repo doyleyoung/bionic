@@ -27,7 +27,6 @@ namespace Bionic.Factories {
     [Argument(1, Description = "Artifact Name")]
     private string artifact { get; set; }
 
-    // Commands
     [Option("-s|--start", Description = "Prepares Blazor project to mimic Ionic structure")]
     private bool start { get; set; } = false;
 
