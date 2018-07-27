@@ -6,7 +6,10 @@ An Ionic CLI clone for Blazor projects
 
 ## Quick Start
 
-Before we start, make sure sass is installed and available in your terminal path.
+Before we start, make sure that the following tools are available in your system:
+
+- ### SASS is installed and available in your terminal path
+
 You can install sass from [here](https://sass-lang.com/install).
 Ensure availability by executing scss command:
 ```bash
@@ -14,81 +17,95 @@ scss --version
 Ruby Sass 3.5.6
 ```
 
+- ### NodeJS is installed and available in your terminal path
+
+You can install node from [here](https://nodejs.org/).
+Ensure availability by executing node command:
+```bash
+node --version
+v9.5.0
+```
+
+```bash
+npm --version
+5.6.0
+```
+
 The following steps are only required to be executed once:
 
 1. Create a [Blazor App](https://blazor.net/docs/get-started.html)
-2. Install Bionic: ```dotnet tool install --global Bionic```
+2. Install Bionic from [NuGet](https://www.nuget.org/packages/Bionic): ```dotnet tool install --global Bionic```
 3. Prepare Blazor project for Bionic: ```bionic start```
 
 The next steps are part of your day-to-day development:
 
-4. Run project: ```dotnet watch run```
+4. Run project: ```bionic serve```
 5. In a secondary terminal, cd into your project root directory
 6. Create a new component: ```bionic generate component CounterComponent```
 7. Edit component and reuse it anywhere you want...
 
+## Sample Bionic commands
 
-## Updating Bionic
-
-1. Remove current Bionic version: ```dotnet tool uninstall --global Bionic```
-2. Install latest version: ```dotnet tool install --global Bionic```
-
-For specific version, add ```--version x.x.x``` to line 2 above.
-Look in [NuGet](https://www.nuget.org/packages/Bionic) for available versions. 
-
-
-## Development
-
-### Build (Debug)
-
+### Version
 ```bash
-dotnet build
+bionic version
 ```
 
-### Install Templates
+### Updating Bionic
 
 ```bash
-dotnet new -i ./
+bionic update
 ```
 
-## Test Bionic CLI
+### Uninstalling Bionic
 
 ```bash
-dotnet ../bin/Debug/netcoreapp2.1/Bionic.dll generate component CounterComponent
+bionic uninstall
 ```
 
-## Releasing
-
-### Build and Pack (Release)
+### Using Electron platform plugin
 
 ```bash
-dotnet pack -o ./
+bionic platform add electron
+bionic platform electron init
+bionic platform electron build
+bionic platform electron serve
 ```
 
-or
+### Using Bionic Blast scripts
 
-```bash
-dotnet build -c Release /t:pack
+Blast scripts are easy to use and organize.
+They are most useful to easily set build sequences.
+
+In your Blazor project Client or Standalone directory, use your favorite text editor or IDE to create or edit ```.bionic/bionic.blast```
+Add the following content and save it:
+
+```text
+:electron
+>electron-init
+>electron-build
+
+:electron-init
+bionic platform add electron
+bionic platform electron init
+
+:electron-build
+bionic platform electron build
+bionic platform electron serve
 ```
 
-## Production
-
-### Install Bionic CLI
-```bash
-dotnet tool install --global Bionic --version 1.0.3
+Lines starting with:
+```text
+: - targets
+> - sub-targets. Make sure that there are no spaces after it.
 ```
+Any other type of line is a cli command.
+ 
+# Blast scripts not executing?
 
-### Before you start, enhance your existing Blazor project (required once) 
-```bash
-bionic start
-```
+There's a bug in [dotnet tools](https://github.com/dotnet/cli/issues/9321) that is preventing bionic tool from being found in the system path.
+There several solition. If you are in OSX, just edit ```/etc/paths.d/dotnet-cli-tools``` to be ```$HOME/.dotnet/tools```.
+Did not try in Linux, but you may have to do the same or just edit your shell init script accordingly.
 
-### Create a new Blazor component
-```bash
-bionic -g component CounterComponent
-```
 
-### Don't like Bionic enhancements! How can I remove Bionic templates from my Blazor project?
-```bash
-dotnet new -u BionicTemplates
-```
+Then have bionic blast it away: ```bionic blast electron```

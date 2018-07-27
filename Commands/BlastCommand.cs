@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
@@ -29,9 +28,15 @@ namespace Bionic.Commands {
         return 1;
       }
 
-      var model = BuildBlastingModel($"{cd}/{BlastFile}");
-      RunScript(Target, model);
-      
+      try {
+        var model = BuildBlastingModel($"{cd}/{BlastFile}");
+        RunScript(Target, model);
+      }
+      catch (Exception e) {
+        Console.WriteLine(e.Message);
+        return 1;
+      }
+
       Console.WriteLine($"🚀  Blasting complete!");
 
       return 0;
@@ -43,7 +48,8 @@ namespace Bionic.Commands {
       if (model.Keys.Contains(t)) {
 
         var targetCmds = model[t];
-        BuildCommandList(cmds, targetCmds, model);
+        model.Remove(t);
+        BuildCommandList(cmds, targetCmds, model); // TODO: Create stack execution machine for improved sub-target sharing 
         
         cmds.ForEach(cmd => {
           Console.WriteLine($"Executing: {cmd}");
@@ -62,7 +68,12 @@ namespace Bionic.Commands {
     private static void BuildCommandList(ICollection<string> cmds, ICollection<string> targetCmds, IReadOnlyDictionary<string, IList<string>> model) {
       foreach (var cmd in targetCmds) {
         if (cmd.StartsWith(":")) {
+          if (model.ContainsKey(cmd)) {
             BuildCommandList(cmds, model[cmd], model);
+          }
+          else {
+            throw new Exception($"☠  Can't zap! Blast script sub-target {cmd} not available or already processed. Processed commands are removed to avoid cyclic references.");
+          }
         }
         else {
           cmds.Add(cmd);
