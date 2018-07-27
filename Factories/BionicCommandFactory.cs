@@ -5,6 +5,7 @@ using McMaster.Extensions.CommandLineUtils;
 
 namespace Bionic.Factories {
   [Command(Description = "🤖 Bionic - An Ionic CLI clone for Blazor projects")]
+  [Subcommand("blast", typeof(BlastCommand))]
   [Subcommand("docs", typeof(DocsCommand))]
   [Subcommand("generate", typeof(GenerateCommand))]
   [Subcommand("info", typeof(InfoCommand))]
