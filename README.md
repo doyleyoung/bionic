@@ -104,7 +104,7 @@ Any other type of line is a cli command.
 # Blast scripts not executing?
 
 There's a bug in [dotnet tools](https://github.com/dotnet/cli/issues/9321) that is preventing bionic tool from being found in the system path.
-There several solition. If you are in OSX, just edit ```/etc/paths.d/dotnet-cli-tools``` to be ```$HOME/.dotnet/tools```.
+There are several solutions. If you are in OSX, just edit ```/etc/paths.d/dotnet-cli-tools``` to be ```$HOME/.dotnet/tools```.
 Did not try in Linux, but you may have to do the same or just edit your shell init script accordingly.
 
 
