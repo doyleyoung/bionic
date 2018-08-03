@@ -14,6 +14,7 @@ namespace Bionic.Commands {
     public BionicCommandFactory Parent { get; }
 
     private static int ExecutePlatform(CommandLineApplication app) {
+      app.ShowHelp();
       return 0;
     }
   }
