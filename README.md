@@ -65,11 +65,50 @@ bionic uninstall
 
 ### Using Electron platform plugin
 
+[Watch introduction video here](https://www.youtube.com/watch?v=2aGTsSe7-MU&t=5s)
+
+You'll need the following tools installed:
+- Recent version of [NodeJS](https://nodejs.org/en/) installed
+
 ```bash
 bionic platform add electron
 bionic platform electron init
 bionic platform electron build
 bionic platform electron serve
+```
+
+### Using Capacitor platform plugin
+
+[Watch introduction video here](https://www.youtube.com/watch?v=67A1ZVlyUfA)
+
+You'll need the following tools installed:
+- Recent version of [NodeJS](https://nodejs.org/en/) installed
+- [Android Studio](https://developer.android.com/studio/)
+
+```bash
+bionic platform add capacitor
+bionic platform capacitor init
+bionic platform capacitor android init
+bionic platform capacitor android build
+bionic platform capacitor android open
+```
+
+### Creating Blazor pages
+
+```bash
+bionic generate page MyPage
+```
+
+### Creating Blazor components
+
+```bash
+bionic generate component MyComponent
+```
+
+### Creating Blazor services
+
+```bash
+bionic generate service MyService
 ```
 
 ### Using Bionic Blast scripts
