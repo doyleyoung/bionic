@@ -1,0 +1,24 @@
+ite_name: Bionic
+site_url: 'https://bmsantos.github.io/bionic/'
+repo_name: 'bmsantos/bionic'
+repo_url: 'https://github.com/bmsantos/bionic'
+extra:
+  social:
+    - type: 'github'
+      link: 'https://github.com/bmsantos'
+    - type: 'youtube'
+      link: 'https://www.youtube.com/playlist?list=PLLxOHqHInCELJjnvN_rCKx5pa_53Utjr7'
+  disqus: 'bionic'
+theme:
+  name: material
+  logo:
+    icon: 'library_books'
+  palette:
+    primary: 'blue'
+    accent: 'orange'
+  font:
+    text: 'Ubuntu'
+    code: 'Ubuntu Mono'
+markdown_extensions:
+  - admonition
+  - codehilite
