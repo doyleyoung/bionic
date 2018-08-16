@@ -1,6 +1,6 @@
 # Android
 
-Before you continue, please make sure you have installed and initialized [Capacitor](/platforms/capacitor/0intro) in Bionic and that [Android Studio](/platforms/capacitor/0intro/#android-studio) is installed.
+Before you continue, please make sure you have installed and initialized [Capacitor](../0intro) in Bionic and that [Android Studio](../0intro/#android-studio) is installed.
 
 ## Initialize Capacitor Android
 
