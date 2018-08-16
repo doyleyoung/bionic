@@ -1,6 +1,6 @@
 # iOS
 
-Before you continue, please make sure you have installed and initialized [Capacitor](/platforms/capacitor/0intro) in Bionic and that [Apple's XCode](/platforms/capacitor/0intro/#ios) is installed.
+Before you continue, please make sure you have installed and initialized [Capacitor](../0intro) in Bionic and that [Apple's XCode](../0intro/#ios) is installed.
 
 ## Initialize Capacitor iOS
 

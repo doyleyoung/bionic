@@ -49,7 +49,7 @@ Next you need to initialize Capacitor. The process will ask for an App name and 
 
 Capacitor can deploy in 4 different targets:
 
-- [Android](/platforms/capacitor_android)
+- [Android](../android)
 - Electron (not available through Bionic yet)
-- [iOS](/platforms/capacitor_ios)
+- [iOS](../ios)
 - Web (not available through Bionic yet)
