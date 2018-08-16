@@ -1,6 +1,6 @@
 <span style="display:block;text-align:center">![bionic](images/logo-full.png)</span>
 
-<span style="display:block;text-align:center">Build web apps [Blazor](https://blazor.net) fast that run at [WASM speed](#https://hackernoon.com/screamin-speed-with-webassembly-b30fac90cd92)!</span>
+<span style="display:block;text-align:center">Build web apps [Blazor](https://blazor.net) fast that run at [WASM speed](https://hackernoon.com/screamin-speed-with-webassembly-b30fac90cd92)!</span>
 
 <span style="display:block;text-align:center">
     <a href="platforms/capacitor/ios"><img src="images/apple-logo.svg" alt="iOS" height="50px"/></a>
