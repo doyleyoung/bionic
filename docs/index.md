@@ -3,13 +3,13 @@
 <span style="display:block;text-align:center">Build web apps [Blazor](https://blazor.net) fast that run at [WASM speed](#https://hackernoon.com/screamin-speed-with-webassembly-b30fac90cd92)!</span>
 
 <span style="display:block;text-align:center">
-    <a href="platforms/capacitor/ios"><img src="/images/apple-logo.svg" alt="iOS" height="50px"/></a>
+    <a href="platforms/capacitor/ios"><img src="images/apple-logo.svg" alt="iOS" height="50px"/></a>
     &nbsp;&nbsp;&nbsp;
-    <a href="platforms/electron"><img src="/images/electron-logo.png" alt="Electron" height="50px"/></a>
+    <a href="platforms/electron"><img src="images/electron-logo.png" alt="Electron" height="50px"/></a>
     &nbsp;&nbsp;&nbsp;
-    <a href="platforms/capacitor/android"><img src="/images/android-logo.png" alt="Android" height="50px"/></a>
+    <a href="platforms/capacitor/android"><img src="images/android-logo.png" alt="Android" height="50px"/></a>
     &nbsp;&nbsp;&nbsp;
-    <img src="/images/pwa-logo.png" alt="PWA" height="40px"/>
+    <img src="images/pwa-logo.png" alt="PWA" height="40px"/>
 </span>
 
 # About
