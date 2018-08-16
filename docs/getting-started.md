@@ -1,6 +1,6 @@
 # Getting Started
 
-If you haven't done so yet, please [install Bionic](/install) first.
+If you haven't done so yet, please [install Bionic](../0_install) first.
 
 ## Create a blazor project
 

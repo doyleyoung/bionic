@@ -26,6 +26,6 @@ WebAssembly is maturing and will soon provide more functionality such as Garbage
 
 When [Steve Sanderson](https://github.com/SteveSanderson) created Blazor, the whole promise of having WebAssembly on the frontend for web applications just became reachable.
 
-At this point, marrying the power of Blazor with the power of a CLI, just made sense.
+At this point, marrying the power of Blazor with the power of a CLI simply made sense.
 
 Hope you all have fun Blazing through some cool apps!
