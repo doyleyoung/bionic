@@ -4,7 +4,7 @@
 This Bionic platform plugin uses a direct template as provided by Electron ans wraps it up for convenient development with Bionic apps.
 
 !!! info
-    Bionic will eventually also provide another way of deploying Electron apps through Bionic Capacitor Plugin.
+    Bionic will eventually provide another way of deploying Electron apps through Bionic Capacitor Plugin.
 
 ## Requirements
 
@@ -84,3 +84,5 @@ Finally serve Electron:
 > bionic platform electron serve
 ☕  Serving Electron...
 ```
+
+![Electron App](/images/electron-app.png)
