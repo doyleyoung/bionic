@@ -8,7 +8,7 @@ extra:
       link: 'https://github.com/bmsantos'
     - type: 'youtube'
       link: 'https://www.youtube.com/playlist?list=PLLxOHqHInCELJjnvN_rCKx5pa_53Utjr7'
-  disqus: 'bionic'
+  disqus: 'bionic-framework'
 theme:
   name: material
   logo:
