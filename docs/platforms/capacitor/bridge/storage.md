@@ -30,16 +30,22 @@ This method can also be used to store non-string values, such as numbers and boo
 
 ```c#
     // Store some data
+    var data = new DataClass {
+       data = "Some Data For Testing"
+    };
+    StorageBridge.Set("data", data);
     StorageBridge.Set("string", "a string");
     StorageBridge.Set("object", new { type = "object", model = "anonymous", arr = new [] { "an", "array" } });
     StorageBridge.Set("number", 123);
 
     // Read data
-    var s = await StorageBridge.Get("string");
+    var d = await StorageBridge.Get<DataClass>("data");
+    Console.WriteLine($"data: {d}.data={d.data}");
+    var s = await StorageBridge.Get<string>("string");
     Console.WriteLine($"string: {s}");
-    var o = await StorageBridge.Get("object");
+    var o = await StorageBridge.Get<object>("object");
     Console.WriteLine($"object: {o}");
-    var n = await StorageBridge.Get("number");
+    var n = await StorageBridge.Get<long>("number");
     Console.WriteLine($"number: {n}");
 
     // Remove entry from storage
@@ -65,13 +71,13 @@ Clear stored keys and values.
 
 Get the value with the given key.
 
-> static Task&lt;object&gt; Get(string key)
+> static Task&lt;T&gt; Get&lt;T&gt;(string key)
 
 ### Set
 
 Set the value for the given key
 
-> static Task Set(string key, object value)
+> static Task Set&lt;T&gt;(string key, T value)
 
 ### Keys
 

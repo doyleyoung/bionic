@@ -4,6 +4,8 @@ An Ionic CLI clone for Blazor projects
 
 [![YouTube Video](https://img.youtube.com/vi/NONCv-i4Q34/0.jpg)](https://youtu.be/NONCv-i4Q34)
 
+[Documentation](http://bmsantos.github.com/bionic) is now available.
+
 ## Quick Start
 
 Before we start, make sure that the following tools are available in your system:

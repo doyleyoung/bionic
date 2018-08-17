@@ -913,16 +913,22 @@
 <p><a href="#remove">StorageBridge.Remove()</a></p>
 <h2 id="example">Example</h2>
 <div class="codehilite"><pre><span></span>    <span class="c1">// Store some data</span>
+    <span class="kt">var</span> <span class="n">data</span> <span class="p">=</span> <span class="k">new</span> <span class="n">DataClass</span> <span class="p">{</span>
+       <span class="n">data</span> <span class="p">=</span> <span class="s">&quot;Some Data For Testing&quot;</span>
+    <span class="p">};</span>
+    <span class="n">StorageBridge</span><span class="p">.</span><span class="n">Set</span><span class="p">(</span><span class="s">&quot;data&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">);</span>
     <span class="n">StorageBridge</span><span class="p">.</span><span class="n">Set</span><span class="p">(</span><span class="s">&quot;string&quot;</span><span class="p">,</span> <span class="s">&quot;a string&quot;</span><span class="p">);</span>
     <span class="n">StorageBridge</span><span class="p">.</span><span class="n">Set</span><span class="p">(</span><span class="s">&quot;object&quot;</span><span class="p">,</span> <span class="k">new</span> <span class="p">{</span> <span class="n">type</span> <span class="p">=</span> <span class="s">&quot;object&quot;</span><span class="p">,</span> <span class="n">model</span> <span class="p">=</span> <span class="s">&quot;anonymous&quot;</span><span class="p">,</span> <span class="n">arr</span> <span class="p">=</span> <span class="k">new</span> <span class="p">[]</span> <span class="p">{</span> <span class="s">&quot;an&quot;</span><span class="p">,</span> <span class="s">&quot;array&quot;</span> <span class="p">}</span> <span class="p">});</span>
     <span class="n">StorageBridge</span><span class="p">.</span><span class="n">Set</span><span class="p">(</span><span class="s">&quot;number&quot;</span><span class="p">,</span> <span class="m">123</span><span class="p">);</span>
 
     <span class="c1">// Read data</span>
-    <span class="kt">var</span> <span class="n">s</span> <span class="p">=</span> <span class="k">await</span> <span class="n">StorageBridge</span><span class="p">.</span><span class="n">Get</span><span class="p">(</span><span class="s">&quot;string&quot;</span><span class="p">);</span>
+    <span class="kt">var</span> <span class="n">d</span> <span class="p">=</span> <span class="k">await</span> <span class="n">StorageBridge</span><span class="p">.</span><span class="n">Get</span><span class="p">&lt;</span><span class="n">DataClass</span><span class="p">&gt;(</span><span class="s">&quot;data&quot;</span><span class="p">);</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="err">$</span><span class="s">&quot;data: {d}.data={d.data}&quot;</span><span class="p">);</span>
+    <span class="kt">var</span> <span class="n">s</span> <span class="p">=</span> <span class="k">await</span> <span class="n">StorageBridge</span><span class="p">.</span><span class="n">Get</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;(</span><span class="s">&quot;string&quot;</span><span class="p">);</span>
     <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="err">$</span><span class="s">&quot;string: {s}&quot;</span><span class="p">);</span>
-    <span class="kt">var</span> <span class="n">o</span> <span class="p">=</span> <span class="k">await</span> <span class="n">StorageBridge</span><span class="p">.</span><span class="n">Get</span><span class="p">(</span><span class="s">&quot;object&quot;</span><span class="p">);</span>
+    <span class="kt">var</span> <span class="n">o</span> <span class="p">=</span> <span class="k">await</span> <span class="n">StorageBridge</span><span class="p">.</span><span class="n">Get</span><span class="p">&lt;</span><span class="kt">object</span><span class="p">&gt;(</span><span class="s">&quot;object&quot;</span><span class="p">);</span>
     <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="err">$</span><span class="s">&quot;object: {o}&quot;</span><span class="p">);</span>
-    <span class="kt">var</span> <span class="n">n</span> <span class="p">=</span> <span class="k">await</span> <span class="n">StorageBridge</span><span class="p">.</span><span class="n">Get</span><span class="p">(</span><span class="s">&quot;number&quot;</span><span class="p">);</span>
+    <span class="kt">var</span> <span class="n">n</span> <span class="p">=</span> <span class="k">await</span> <span class="n">StorageBridge</span><span class="p">.</span><span class="n">Get</span><span class="p">&lt;</span><span class="kt">long</span><span class="p">&gt;(</span><span class="s">&quot;number&quot;</span><span class="p">);</span>
     <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="err">$</span><span class="s">&quot;number: {n}&quot;</span><span class="p">);</span>
 
     <span class="c1">// Remove entry from storage</span>
@@ -946,12 +952,12 @@
 <h3 id="get">Get</h3>
 <p>Get the value with the given key.</p>
 <blockquote>
-<p>static Task&lt;object&gt; Get(string key)</p>
+<p>static Task&lt;T&gt; Get&lt;T&gt;(string key)</p>
 </blockquote>
 <h3 id="set">Set</h3>
 <p>Set the value for the given key</p>
 <blockquote>
-<p>static Task Set(string key, object value)</p>
+<p>static Task Set&lt;T&gt;(string key, T value)</p>
 </blockquote>
 <h3 id="keys">Keys</h3>
 <p>Return the list of known keys</p>
