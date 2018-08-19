@@ -386,8 +386,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#ensure-that-document-base-url-is-set-to-look-into-current-directory" title="Ensure that document base URL is set to look into current directory" class="md-nav__link">
-    Ensure that document base URL is set to look into current directory
+  <a href="#ensure-that-the-document-base-url-is-set-to-look-into-the-current-directory" title="Ensure that the document base URL is set to look into the current directory" class="md-nav__link">
+    Ensure that the document base URL is set to look into the current directory
   </a>
   
 </li>
@@ -825,8 +825,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#ensure-that-document-base-url-is-set-to-look-into-current-directory" title="Ensure that document base URL is set to look into current directory" class="md-nav__link">
-    Ensure that document base URL is set to look into current directory
+  <a href="#ensure-that-the-document-base-url-is-set-to-look-into-the-current-directory" title="Ensure that the document base URL is set to look into the current directory" class="md-nav__link">
+    Ensure that the document base URL is set to look into the current directory
   </a>
   
 </li>
@@ -877,7 +877,7 @@
                 
                 <h1 id="electron">Electron</h1>
 <p><a href="https://electronjs.org/">Electron</a> allows for the development of desktop GUI applications using front and back end components originally developed for web applications.
-This Bionic platform plugin uses a direct template as provided by Electron ans wraps it up for convenient development with Bionic apps.</p>
+The Bionic platform plugin uses a direct template provided by Electron and wraps it up for convenient development.</p>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>Bionic will eventually provide another way of deploying Electron apps through Bionic Capacitor Plugin.</p>
@@ -893,7 +893,7 @@ v9.5.0
 <h2 id="prepare-your-blazor-app-for-electron">Prepare your Blazor app for Electron</h2>
 <h3 id="ensure-that-indexhtml-is-explicitly-defined">Ensure that index.html is explicitly defined</h3>
 <p>Electron will fail to route to index.html if page is not explicitly defined. To fix this issue find your <code>index.cshtml</code> page and, if not present, add <code>@page "/index.html"</code>.
-Here's how the Blazor Standalone template <code>Pages/index.cshtml</code> should look like in order to make it work with Electron:</p>
+The Blazor Standalone template <code>Pages/index.cshtml</code> should look this in order to make it work with Electron:</p>
 <div class="codehilite"><pre><span></span>@page &quot;/&quot;
 @page &quot;/index.html&quot;
 
@@ -905,10 +905,10 @@ Welcome to your new app.
 </pre></div>
 
 
-<h3 id="ensure-that-document-base-url-is-set-to-look-into-current-directory">Ensure that document base URL is set to look into current directory</h3>
+<h3 id="ensure-that-the-document-base-url-is-set-to-look-into-the-current-directory">Ensure that the document base URL is set to look into the current directory</h3>
 <p>Edit <code>wwwroot/index.html</code> and change <code>&lt;base href="/" /&gt;</code> to be <code>&lt;base href="./" /&gt;</code>.</p>
 <h2 id="initializing-electron">Initializing Electron</h2>
-<p>First, we need to download and install Bionic's Electron Plugin. This step is only required once per project. From your project (or Blazor Client) directory do: </p>
+<p>First, we need to download and install Bionic's Electron Plugin. This step is only required once per project. From your project (or Blazor Client) directory do:</p>
 <div class="codehilite"><pre><span></span>&gt; bionic platform add electron
 🔍  Looking for electron platform plugin
 ☕  Found it! Adding electron plugin...
