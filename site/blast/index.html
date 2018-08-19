@@ -710,7 +710,7 @@
                 
                 <h1 id="blast-scripting">Blast Scripting</h1>
 <p>Blast scripts are easy to use and organize.
-They are most useful to easily set build/task sequences.</p>
+They allow you to easily set up build/task sequences.</p>
 <p>In your Blazor project Client or Standalone directory, use your favorite text editor or IDE to create or edit <code>.bionic/bionic.blast</code>
 Add the following content and save it:</p>
 <div class="codehilite"><pre><span></span>:electron
@@ -741,7 +741,7 @@ bionic platform electron serve
 </ul>
 <p>The above task is to be done once since it is installing Plugin and initializing project. For subsequent deployments you should only need:  </p>
 <ul>
-<li><code>bionic blast electron-build</code> - Build Blazor project and serve Electron. </li>
+<li><code>bionic blast electron-build</code> - Build Blazor project and serve Electron.</li>
 </ul>
 <h1 id="blast-scripts-not-executing">Blast scripts not executing?</h1>
 <p>There's a bug in <a href="https://github.com/dotnet/cli/issues/9321">dotnet tools</a> that is preventing bionic tool from being found in the system path.

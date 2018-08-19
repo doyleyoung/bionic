@@ -32,7 +32,7 @@ Keep in mind that just like Blazor, this is an **exploration** project. With you
 
 With the introduction of
 [WebAssembly (WASM)](https://medium.com/mozilla-tech/why-webassembly-is-a-game-changer-for-the-web-and-a-source-of-pride-for-mozilla-and-firefox-dda80e4c43cb)
-in the browser, it is now possible to use languages other than JavaScript to build amazing web apps that run at near native speed. This means is
+in the browser, it is now possible to use languages other than JavaScript to build amazing web apps that run at near native speed. This means that
 [many languages](https://github.com/mbasso/awesome-wasm)
 can now share code between frontend and backend without having to compromise computation power and typesafety as often happens in the world of JavaScript.
 

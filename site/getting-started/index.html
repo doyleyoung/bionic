@@ -318,8 +318,8 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#create-a-blazor-project" title="Create a blazor project" class="md-nav__link">
-    Create a blazor project
+  <a href="#create-a-blazor-project" title="Create a Blazor project" class="md-nav__link">
+    Create a Blazor project
   </a>
   
 </li>
@@ -769,8 +769,8 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#create-a-blazor-project" title="Create a blazor project" class="md-nav__link">
-    Create a blazor project
+  <a href="#create-a-blazor-project" title="Create a Blazor project" class="md-nav__link">
+    Create a Blazor project
   </a>
   
 </li>
@@ -836,9 +836,9 @@
                 
                 
                 <h1 id="getting-started">Getting Started</h1>
-<p>If you haven't done so yet, please <a href="../0_install">install Bionic</a> first.</p>
-<h2 id="create-a-blazor-project">Create a blazor project</h2>
-<p>The first thing you need to do is to create a Blazor Standalone or Hosted project using Blazor Templates.</p>
+<p>If you haven't done so, please <a href="../0_install">install Bionic</a> first.</p>
+<h2 id="create-a-blazor-project">Create a Blazor project</h2>
+<p>First, create a Blazor Standalone or Hosted project using Blazor Templates.</p>
 <p>You can check for the available templates using:</p>
 <div class="codehilite"><pre><span></span>&gt; dotnet new -l
 </pre></div>
@@ -884,15 +884,15 @@ Application started. Press Ctrl+C to shut down.
 </pre></div>
 
 
-<p>Please notice that it will not hot-reload the page for you. You'll have to keep an eye on the server and reload when compilation has completed.</p>
+<p>Please note that it will not hot-reload the page for you. You'll have to keep an eye on the server and reload when compilation has completed.</p>
 <h2 id="bionic-is-your-friend">Bionic is your friend</h2>
-<p>Bionic command line can help you.</p>
+<p>Bionic command line can help you.  You can continue to add --help to longer commands for contextual help.</p>
 <div class="codehilite"><pre><span></span>bionic --help
 </pre></div>
 
 
 <h2 id="generating-services-aka-providers-for-your-project">Generating Services (AKA Providers) for your project</h2>
-<p>Services require both and interface and its respective implementation. In addition they also need to be registered with the Dependency Injection service before being used. With Bionic, the [Injectable] attribute is used to inject the service automatically and like this minimizing the amount of changes required.</p>
+<p>Services require both an interface and its implementation. In addition, they also need to be registered with the Dependency Injection service before being used. With Bionic, the [Injectable] attribute is used to inject the service automatically minimizing the amount of changes required.</p>
 <p>Let's start by creating a new CounterService for the project:</p>
 <div class="codehilite"><pre><span></span>bionic generate service CounterService
 🚀  Generating a service named CounterService
