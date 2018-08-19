@@ -23,7 +23,7 @@ If you intend to target iOS (iPhone/iPad and whatever starts with i), you will n
 
 ## Getting Started with Capacitor
 
-First, we need to download and install Bionic's Capacitor Plugin. This step is only required once per project. From your project (or Blazor Client) directory do: 
+First, we need to download and install Bionic's Capacitor Plugin. This step is only required once per project. From your project (or Blazor Client) directory do:
 
 ```text
 > bionic platform add capacitor
@@ -34,14 +34,14 @@ First, we need to download and install Bionic's Capacitor Plugin. This step is o
 
 This will create the necessary assets under ```platforms/capacitor```.
 
-Next you need to initialize Capacitor. The process will ask for an App name and an App package ID. Please make sure the package ID follow the [Java package naming convention](https://docs.oracle.com/javase/tutorial/java/package/namingpkgs.html):
+Next you need to initialize Capacitor. The process will ask for an App name and an App package ID. Please make sure the package ID follows the [Java package naming convention](https://docs.oracle.com/javase/tutorial/java/package/namingpkgs.html):
 
 ```text
 > bionic platform capacitor init
 ...
 ? App name BionicApp
 ? App Package ID (must be a valid Java package) com.bionic.app
-✔ Initializing Capacitor project in 
+✔ Initializing Capacitor project in
 ...
 ```
 

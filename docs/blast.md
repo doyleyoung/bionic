@@ -1,7 +1,7 @@
 # Blast Scripting
 
 Blast scripts are easy to use and organize.
-They are most useful to easily set build/task sequences.
+They allow you to easily set up build/task sequences.
 
 In your Blazor project Client or Standalone directory, use your favorite text editor or IDE to create or edit ```.bionic/bionic.blast```
 Add the following content and save it:
@@ -31,11 +31,11 @@ Any other type of line is a cli command.
 Then have bionic blast it away:
 
  - ```bionic blast electron``` - Install Electron Plugin and prepare project for Electron.
- 
+
 The above task is to be done once since it is installing Plugin and initializing project. For subsequent deployments you should only need:  
 
- - ```bionic blast electron-build``` - Build Blazor project and serve Electron. 
- 
+ - ```bionic blast electron-build``` - Build Blazor project and serve Electron.
+
 # Blast scripts not executing?
 
 There's a bug in [dotnet tools](https://github.com/dotnet/cli/issues/9321) that is preventing bionic tool from being found in the system path.

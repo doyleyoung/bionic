@@ -1,7 +1,7 @@
 # Electron
 
 [Electron](https://electronjs.org/) allows for the development of desktop GUI applications using front and back end components originally developed for web applications.
-This Bionic platform plugin uses a direct template as provided by Electron ans wraps it up for convenient development with Bionic apps.
+The Bionic platform plugin uses a direct template provided by Electron and wraps it up for convenient development.
 
 !!! info
     Bionic will eventually provide another way of deploying Electron apps through Bionic Capacitor Plugin.
@@ -22,7 +22,7 @@ v9.5.0
 ### Ensure that index.html is explicitly defined
 
 Electron will fail to route to index.html if page is not explicitly defined. To fix this issue find your ```index.cshtml``` page and, if not present, add ```@page "/index.html"```.
-Here's how the Blazor Standalone template ```Pages/index.cshtml``` should look like in order to make it work with Electron:
+The Blazor Standalone template ```Pages/index.cshtml``` should look this in order to make it work with Electron:
 
 ```html
 @page "/"
@@ -35,13 +35,13 @@ Welcome to your new app.
 <SurveyPrompt Title="How is Blazor working for you?" />
 ```
 
-### Ensure that document base URL is set to look into current directory
+### Ensure that the document base URL is set to look into the current directory
 
 Edit ```wwwroot/index.html``` and change ```<base href="/" />``` to be ```<base href="./" />```.
 
 ## Initializing Electron
 
-First, we need to download and install Bionic's Electron Plugin. This step is only required once per project. From your project (or Blazor Client) directory do: 
+First, we need to download and install Bionic's Electron Plugin. This step is only required once per project. From your project (or Blazor Client) directory do:
 
 ```text
 > bionic platform add electron

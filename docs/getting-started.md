@@ -1,10 +1,10 @@
 # Getting Started
 
-If you haven't done so yet, please [install Bionic](../0_install) first.
+If you haven't done so, please [install Bionic](../0_install) first.
 
-## Create a blazor project
+## Create a Blazor project
 
-The first thing you need to do is to create a Blazor Standalone or Hosted project using Blazor Templates.
+First, create a Blazor Standalone or Hosted project using Blazor Templates.
 
 You can check for the available templates using:
 
@@ -60,11 +60,11 @@ You can now build and serve your project. This command will also rebuild wheneve
 > bionic serve
 ```
 
-Please notice that it will not hot-reload the page for you. You'll have to keep an eye on the server and reload when compilation has completed.
+Please note that it will not hot-reload the page for you. You'll have to keep an eye on the server and reload when compilation has completed.
 
 ## Bionic is your friend
 
-Bionic command line can help you.
+Bionic command line can help you.  You can continue to add --help to longer commands for contextual help.
 
 ```text
 bionic --help
@@ -72,7 +72,7 @@ bionic --help
 
 ## Generating Services (AKA Providers) for your project
 
-Services require both and interface and its respective implementation. In addition they also need to be registered with the Dependency Injection service before being used. With Bionic, the [Injectable] attribute is used to inject the service automatically and like this minimizing the amount of changes required.
+Services require both an interface and its implementation. In addition, they also need to be registered with the Dependency Injection service before being used. With Bionic, the [Injectable] attribute is used to inject the service automatically minimizing the amount of changes required.
 
 Let's start by creating a new CounterService for the project:
 
