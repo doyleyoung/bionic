@@ -1,8 +1,8 @@
-<span style="display:block;text-align:center"><img src="https://raw.githubusercontent.com/bmsantos/bionic/master/docs/images/logo-full.png" alt="bionic"/></span>
+<span style="text-align:center"><img src="https://raw.githubusercontent.com/bmsantos/bionic/master/docs/images/logo-full.png" alt="bionic"/></span>
 
-<span style="display:block;text-align:center">Build web apps [Blazor](https://blazor.net) fast that run at [WASM speed](https://hackernoon.com/screamin-speed-with-webassembly-b30fac90cd92)!</span>
+<span style="text-align:center">Build web apps [Blazor](https://blazor.net) fast that run at [WASM speed](https://hackernoon.com/screamin-speed-with-webassembly-b30fac90cd92)!</span>
 
-<span style="display:block;text-align:center">
+<span style="text-align:center">
     <a href="https://bmsantos.github.io/bionic/platforms/capacitor/ios"><img src="https://raw.githubusercontent.com/bmsantos/bionic/master/docs/images/apple-logo.png" alt="iOS" height="50px"/></a>
     &nbsp;&nbsp;&nbsp;
     <a href="https://bmsantos.github.io/bionic/platforms/electron"><img src="https://raw.githubusercontent.com/bmsantos/bionic/master/docs/images/electron-logo.png" alt="Electron" height="50px"/></a>
