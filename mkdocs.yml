@@ -14,7 +14,7 @@ theme:
   logo:
     icon: 'library_books'
   palette:
-    primary: 'blue'
+    primary: 'red'
     accent: 'orange'
   font:
     text: 'Ubuntu'
