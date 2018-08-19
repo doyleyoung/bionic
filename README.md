@@ -1,6 +1,6 @@
-<div style="text-align:center"><img src="https://raw.githubusercontent.com/bmsantos/bionic/master/docs/images/logo-full.png" alt="bionic"/></div>
+<div style="text-align:center"><img src="https://raw.githubusercontent.com/bmsantos/bionic/master/docs/images/logo-full.png" alt="bionic" height="150"/></div>
 
-<span style="text-align:center">Build web apps [Blazor](https://blazor.net) fast that run at [WASM speed](https://hackernoon.com/screamin-speed-with-webassembly-b30fac90cd92)!</span>
+Build web apps [Blazor](https://blazor.net) fast that run at [WASM speed](https://hackernoon.com/screamin-speed-with-webassembly-b30fac90cd92)!
 
 <div style="text-align:center">
     <a href="https://bmsantos.github.io/bionic/platforms/capacitor/ios"><img src="https://raw.githubusercontent.com/bmsantos/bionic/master/docs/images/apple-logo.png" alt="iOS" height="50px"/></a>
@@ -12,7 +12,9 @@
     <img src="https://raw.githubusercontent.com/bmsantos/bionic/master/docs/images/pwa-logo.png" alt="PWA" height="40px"/>
 </div>
 
-An Ionic CLI clone for Blazor projects
+
+# Bionic: An Ionic CLI clone for Blazor projects
+
 
 [![YouTube Video](https://img.youtube.com/vi/NONCv-i4Q34/0.jpg)](https://youtu.be/NONCv-i4Q34)
 
