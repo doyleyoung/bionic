@@ -2,14 +2,14 @@
 
 ## Before you install
 
-A few things are required to be installed before bionic can be used. If you already have them installed, you can just skip it.
+A few things are required to be installed before bionic can be used. If you already have them installed, just skip ahead.
 
 ### .Net Core SDK
 
 Because Bionic builds on the top of the amazing Blazor project, the first thing you need to do is to install [.Net Core SDK](https://blazor.net/docs/get-started.html#setup).
 
 !!! tip
-    If you are not using Visual Studio, [downloading installing .Net Core SDK](https://www.microsoft.com/net/download) will suffice.
+    If you are not using Visual Studio, [installing .Net Core SDK](https://www.microsoft.com/net/download) will suffice.
 
 Check if dotnet is installed:
 
@@ -22,7 +22,7 @@ Blazor requires version 2.1.300 or above.
 
 ### SCSS compiler
 
-Bionic uses SCSS for styling. Because of this, a SCSS compiler is required. Please [install SASS](https://sass-lang.com/install) compiler.
+Bionic uses SCSS for styling and requires an SCSS compiler. Please [install SASS](https://sass-lang.com/install) compiler.
 
 Check if SCSS is installed:
 
@@ -33,7 +33,7 @@ Ruby Sass 3.5.6
 
 ## Installing Bionic
 
-Bionic releases are available through [NuGet](https://www.nuget.org/packages/Bionic). 
+Bionic releases are available through [NuGet](https://www.nuget.org/packages/Bionic).
 
 To install it execute:
 ```text

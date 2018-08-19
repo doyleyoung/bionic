@@ -22,8 +22,8 @@ Keep in mind that just like Blazor, this is an **exploration** project. With you
 
 ## Features
 
-- SCSS Style Isolation: Pages and components have their own scss file for quick and easy styling.
-- Hot Rebuild: Automatically rebuild modified source or scss code (hot reloading not available, yet).
+- SCSS Style Isolation: Pages and components have their own SCSS file for quick and easy styling.
+- Hot Rebuild: Automatically rebuild modified source or SCSS code (hot reloading not available, yet).
 - Component Generation: Quickly generate Blazor pages, components, and services.
 - Modular Platform Architecture: Project deployment platforms are provided through plugins and isolated within each project.
 - Blast Scripting: Execute a group of commands under a single target name.
