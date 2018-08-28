@@ -115,12 +115,12 @@ public class CounterService : ICounterService
 
 ## Generating a new Component
 
-Pages, Components and Services can also be generated through an interactive CLI process:
+Pages, Layouts, Components and Services can also be generated through an interactive CLI process:
 
 ```text
 > bionic bionic -g
 What would you like to generate?
- (component, page or service/provider):  component
+ (component, layout, page or service/provider):  component
 How would you like to name your component? CounterComponent
 🚀  Generating a component named CounterComponent
 The template "Bionic Component Template" was created successfully.
@@ -180,3 +180,8 @@ Now edit you Pages/Counter.cshtml page and set it to:
 Let *bionic serve* complete the build and then refresh your browser to contemplate the final result.
 
 ![generate-app](images/blazor-app-generate.png)
+
+
+You can now pick and choose where else you would like to deploy your app:
+
+[Android](../platforms/capacitor/android), [Electron](../platforms/electron) or [iOS](../platforms/capacitor/ios)
