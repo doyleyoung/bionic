@@ -7,6 +7,7 @@ using Bionic.Project;
 using McMaster.Extensions.CommandLineUtils;
 
 namespace Bionic.Commands {
+  [Command(Description = "Add available Bionic platforms to project")]
   public class AddPlatformCmd : CommandBase, ICommand {
     [Argument(0, Description = "Platform Name (electron, capacitor)"), Required]
     private string PlatformName { get; set; }

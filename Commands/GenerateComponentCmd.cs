@@ -4,6 +4,7 @@ using System.Diagnostics;
 using McMaster.Extensions.CommandLineUtils;
 
 namespace Bionic.Commands {
+  [Command(Description = "Generate Blazor component")]
   public class GenerateComponentCmd : CommandBase, ICommand {
     [Argument(0, Description = "Artifact Name"), Required]
     private string Artifact { get; set; }

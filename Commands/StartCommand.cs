@@ -96,7 +96,7 @@ namespace Bionic.Commands {
 
       using (var sw = File.CreateText(ProjectHelper.AppCssPath)) {
         sw.WriteLine("// WARNING - This file is automatically updated by Bionic CLI, please do not remove");
-        sw.WriteLine("\n// Components\n\n// Pages\n");
+        sw.WriteLine("\n// Components\n\n// Pages\n\n// Layouts\n");
       }
 
       return false;

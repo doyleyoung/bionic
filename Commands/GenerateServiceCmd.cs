@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using McMaster.Extensions.CommandLineUtils;
 
 namespace Bionic.Commands {
+  [Command(Description = "Generate Blazor service")]
   public class GenerateServiceCmd : CommandBase, ICommand {
     private const string ProgramPath = "Startup.cs";
 

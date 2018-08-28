@@ -11,14 +11,15 @@ using Bionic.Utils;
 using McMaster.Extensions.CommandLineUtils;
 
 namespace Bionic.Commands {
-  [Command(Description = "Generate pages, components or services/providers")]
+  [Command(Description = "Generate pages, layouts, components or services/providers")]
   [Subcommand("page", typeof(GeneratePageCmd))]
   [Subcommand("component", typeof(GenerateComponentCmd))]
   [Subcommand("service", typeof(GenerateServiceCmd))]
   [Subcommand("provider", typeof(GenerateServiceCmd))]
+  [Subcommand("layout", typeof(GenerateLayoutCmd))]
   public class GenerateCommand : CommandBase, ICommand {
     private static readonly List<string> GenerateOptions = new List<string>
-      {"component", "page", "provider", "service"};
+      {"component", "layout", "page", "provider", "service"};
 
     private string _option;
     private string _artifact;
@@ -33,6 +34,7 @@ namespace Bionic.Commands {
     }
 
     protected override int OnExecute(CommandLineApplication app) {
+      app.ShowHelp();
       return 0;
     }
 
@@ -46,7 +48,7 @@ namespace Bionic.Commands {
       }
 
       while (!GenerateOptions.Contains(_option)) {
-        _option = Prompt.GetString("What would you like to generate?\n (component, page or service/provider): ",
+        _option = Prompt.GetString("What would you like to generate?\n (component, layout, page or service/provider): ",
           promptColor: ConsoleColor.DarkGreen);
       }
 
@@ -60,6 +62,7 @@ namespace Bionic.Commands {
 
     private int GenerateArtifact() {
       if (_option == "page") return new GeneratePageCmd(_artifact).Execute();
+      if (_option == "layout") return new GenerateLayoutCmd(_artifact).Execute();
       if (_option == "component") return new GenerateComponentCmd(_artifact).Execute();
       if (_option == "provider" || _option == "service") return new GenerateServiceCmd(_artifact).Execute();
 

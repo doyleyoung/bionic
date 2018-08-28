@@ -12,6 +12,11 @@
     <AssemblyName>Bionic</AssemblyName>
     <RootNamespace>Bionic</RootNamespace>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <Copyright>(c) Bionic. All rights reserved.</Copyright>
+    <PackageLicenseUrl>http://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/bmsantos/BionicBridgeCapacitor</PackageProjectUrl>
+    <PackageIconUrl>https://vectr.com/bmsantos/a2sGndBV8e.svg?width=256&amp;height=256&amp;select=a2sGndBV8epage0</PackageIconUrl>
+    <PackageTags>Blazor Bionic</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
