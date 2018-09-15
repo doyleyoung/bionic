@@ -120,7 +120,7 @@ namespace Bionic.Commands {
       const string scssCompiler = @"
     <Target Name=""CompileSCSS"" BeforeTargets=""Build"" Condition=""Exists('App.scss')"">
         <Message Importance=""high"" Text=""Compiling SCSS"" />
-        <Exec Command=""scss --no-cache --update ./App.scss:./wwwroot/css/App.css"" />
+        <Exec Command=""sass --update ./App.scss:./wwwroot/css/App.css"" />
     </Target>";
 
       string content = null;
