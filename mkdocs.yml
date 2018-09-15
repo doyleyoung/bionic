@@ -15,7 +15,7 @@ theme:
     icon: 'library_books'
   palette:
     primary: 'red'
-    accent: 'orange'
+    accent: 'red'
   font:
     text: 'Ubuntu'
     code: 'Ubuntu Mono'

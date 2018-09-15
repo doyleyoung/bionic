@@ -15,21 +15,29 @@ Check if dotnet is installed:
 
 ```text
 > dotnet --version
-2.1.302
+2.1.402
 ```
 
 Blazor requires version 2.1.300 or above.
 
-### SCSS compiler
+### SASS/SCSS compiler
 
-Bionic uses SCSS for styling and requires an SCSS compiler. Please [install SASS](https://sass-lang.com/install) compiler.
+Bionic uses SASS/SCSS for styling and requires an SCSS compiler. Please [install SASS](https://sass-lang.com/install) compiler.
 
 Check if SCSS is installed:
 
 ```text
-> scss --version
+> sass --version
+1.13.1
+```
+
+or, depending on which version you have installed:
+
+```text
+> sass --version
 Ruby Sass 3.5.6
 ```
+
 
 ## Installing Bionic
 
