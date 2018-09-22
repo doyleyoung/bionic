@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using Bionic.Factories;
 using Bionic.Project;
@@ -16,7 +15,6 @@ namespace Bionic.Commands {
     private static readonly Regex ServiceRegEx =
       new Regex(@"(ConfigureServices\([\s]*IServiceCollection[\s]+(.*?)[\s]*\)[\s]*{)([^}]*)(})",
         RegexOptions.Compiled);
-
 
     protected override int OnExecute(CommandLineApplication app) => SetupBionic();
 
