@@ -1066,7 +1066,40 @@ destination root directory.</p>
 
 <p>Once Bionic Monitor is running, the page will be automatically reloaded every-time you build your app.</p>
 <h2 id="hosted-project-setup">Hosted project setup</h2>
-<p>Coming Soon...</p>
+<p>Hosted uses the same setup as Standalone and opens CORS on the Hosted Server.
+On the <em>.Client</em> project start Bionic Monitor on specific ports different than the one being used by the <em>.Server</em>:</p>
+<div class="codehilite"><pre><span></span>&gt; biomon --bionic --port 3434 --securePort 3535
+</pre></div>
+
+
+<p>Add the following to <em>.Server</em> Startup.cs file:</p>
+<div class="codehilite"><pre><span></span>        <span class="k">public</span> <span class="k">void</span> <span class="nf">ConfigureServices</span><span class="p">(</span><span class="n">IServiceCollection</span> <span class="n">services</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="p">...</span>
+            <span class="c1">// Add the following line before AddMvc</span>
+            <span class="n">services</span><span class="p">.</span><span class="n">AddCors</span><span class="p">(</span><span class="n">options</span> <span class="p">=&gt;</span>
+                <span class="n">options</span><span class="p">.</span><span class="n">AddPolicy</span><span class="p">(</span><span class="s">&quot;AllowDevClient&quot;</span><span class="p">,</span> <span class="n">builder</span> <span class="p">=&gt;</span>
+                <span class="n">builder</span><span class="p">.</span><span class="n">WithOrigins</span><span class="p">(</span><span class="s">&quot;http://localhost:3434&quot;</span><span class="p">)</span>
+                    <span class="p">.</span><span class="n">AllowAnyMethod</span><span class="p">()</span>
+                    <span class="p">.</span><span class="n">AllowAnyHeader</span><span class="p">()</span>
+                    <span class="p">.</span><span class="n">AllowCredentials</span><span class="p">())</span>
+            <span class="p">);</span>
+            <span class="n">services</span><span class="p">.</span><span class="n">AddMvc</span><span class="p">();</span>
+            <span class="p">...</span>
+        <span class="p">}</span>
+
+        <span class="k">public</span> <span class="k">void</span> <span class="nf">Configure</span><span class="p">(</span><span class="n">IApplicationBuilder</span> <span class="n">app</span><span class="p">,</span> <span class="n">IHostingEnvironment</span> <span class="n">env</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="p">...</span>
+            <span class="c1">// Add the following line before UseMvc</span>
+            <span class="n">app</span><span class="p">.</span><span class="n">UseCors</span><span class="p">(</span><span class="s">&quot;AllowDevClient&quot;</span><span class="p">);</span>
+            <span class="n">app</span><span class="p">.</span><span class="n">UseMvc</span><span class="p">(</span><span class="n">routes</span> <span class="p">=&gt;</span>
+            <span class="p">...</span>
+        <span class="p">}</span>
+</pre></div>
+
+
+<p>Build and start Hosted server.</p>
 <h2 id="building-your-app">Building your app</h2>
 <p>The specified AfterBuild target will be executed by default whenever the project is built using:</p>
 <ul>
