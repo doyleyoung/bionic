@@ -71,7 +71,42 @@ Once Bionic Monitor is running, the page will be automatically reloaded every-ti
 
 ## Hosted project setup
 
-Coming Soon...
+Hosted uses the same setup as Standalone and opens CORS on the Hosted Server.
+On the _.Client_ project start Bionic Monitor on specific ports different than the one being used by the _.Server_:
+
+```text
+> biomon --bionic --port 3434 --securePort 3535
+``` 
+
+Add the following to _.Server_ Startup.cs file:
+
+```c#
+        public void ConfigureServices(IServiceCollection services)
+        {
+            ...
+            // Add the following line before AddMvc
+            services.AddCors(options =>
+                options.AddPolicy("AllowDevClient", builder =>
+                builder.WithOrigins("http://localhost:3434")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials())
+            );
+            services.AddMvc();
+            ...
+        }
+
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            ...
+            // Add the following line before UseMvc
+            app.UseCors("AllowDevClient");
+            app.UseMvc(routes =>
+            ...
+        }
+```
+
+Build and start Hosted server.
 
 
 ## Building your app
