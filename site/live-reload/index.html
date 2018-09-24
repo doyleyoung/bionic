@@ -1116,9 +1116,16 @@ On the <em>.Client</em> project start Bionic Monitor on specific ports different
 <p>Add the following watcher configuration to .csproj file (client side).
 If you use Bionic, you do not require this step as it is automatically added for you when you start your project
 with Bionic.</p>
-<div class="codehilite"><pre><span></span>    <span class="nt">&lt;ItemGroup&gt;</span>
-        <span class="nt">&lt;Watch</span> <span class="na">Include=</span><span class="s">&quot;**/*.cshtml;**/*.scss&quot;</span> <span class="na">Visible=</span><span class="s">&quot;false&quot;</span> <span class="nt">/&gt;</span>
-    <span class="nt">&lt;/ItemGroup&gt;</span>
+<div class="codehilite"><pre><span></span>  <span class="nt">&lt;ItemGroup&gt;</span>
+    <span class="nt">&lt;Watch</span> <span class="na">Include=</span><span class="s">&quot;**/*.cshtml;**/*.html;**/*.css&quot;</span> <span class="na">Exclude=</span><span class="s">&quot;rootbeer/**/*.*&quot;</span> <span class="na">Visible=</span><span class="s">&quot;false&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/ItemGroup&gt;</span>
+</pre></div>
+
+
+<p>or, if in a Bionic app:</p>
+<div class="codehilite"><pre><span></span>  <span class="nt">&lt;ItemGroup&gt;</span>
+    <span class="nt">&lt;Watch</span> <span class="na">Include=</span><span class="s">&quot;**/*.cshtml;**/*.html;**/*.scss&quot;</span> <span class="na">Visible=</span><span class="s">&quot;false&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/ItemGroup&gt;</span>
 </pre></div>
 
 
