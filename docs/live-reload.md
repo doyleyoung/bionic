@@ -129,9 +129,17 @@ If you use Bionic, you do not require this step as it is automatically added for
 with Bionic.
 
 ```xml
-    <ItemGroup>
-        <Watch Include="**/*.cshtml;**/*.scss" Visible="false" />
-    </ItemGroup>
+  <ItemGroup>
+    <Watch Include="**/*.cshtml;**/*.html;**/*.css" Exclude="rootbeer/**/*.*" Visible="false" />
+  </ItemGroup>
+```
+
+or, if in a Bionic app:
+
+```xml
+  <ItemGroup>
+    <Watch Include="**/*.cshtml;**/*.html;**/*.scss" Visible="false" />
+  </ItemGroup>
 ```
 
 Remove ```**/*.scss``` if you are not using SASS/SCSS to build your styles.
