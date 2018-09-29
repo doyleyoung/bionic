@@ -22,6 +22,7 @@ namespace Bionic.Utils {
         }
       }
       catch (Exception e) {
+        Console.WriteLine($"Failed to read file {fileName}: {e.Message}");
         return 1;
       }
 

@@ -94,7 +94,7 @@ namespace Bionic.Commands {
         process?.WaitForExit();
       }
       catch (Exception e) {
-        // ignored
+        Console.WriteLine($"Failed to execute command \"{cmds[0]} {cmds[1]}\": {e.Message}");
       }
 
       return process?.ExitCode ?? 1;

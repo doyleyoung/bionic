@@ -110,7 +110,7 @@ namespace Bionic.Commands {
     }
 
     private static void IntroduceProjectTargets(ProjectInfo projectInfo, string relativePath = "") {
-      string watcher = string.Format(@"
+      var watcher = string.Format(@"
     <ItemGroup>
         <Watch Include=""{0}**/*.cshtml;{0}**/*.scss"" Visible=""false""/>
     </ItemGroup>", relativePath.IsNullOrEmpty() || relativePath.EndsWith("/") ? relativePath : $"{relativePath}/");
@@ -121,7 +121,7 @@ namespace Bionic.Commands {
         <Exec Command=""sass --update ./App.scss:./wwwroot/css/App.css"" />
     </Target>";
 
-      string content = null;
+      string content;
 
       switch (projectInfo.projectType) {
         case ProjectType.Standalone:
@@ -163,9 +163,9 @@ namespace Bionic.Commands {
         }
       }
       catch (Exception e) {
+        Console.WriteLine($"Failed to update Startup.cs: {e.Message}");
         return 1;
       }
-
 
       return 0;
     }
