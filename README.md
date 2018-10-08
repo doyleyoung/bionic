@@ -1,3 +1,15 @@
+# Bionic has a new home:
+
+*** THIS PROJECT MOVED AND THIS REPO WILL SOON BE REMOVED***
+
+[Bionic Framework](https://github.com/BionicFramework/)
+
+[Bionic Framework Documentation](https://bionicframework.github.io/Documentation)
+
+[Where can I find an updated version of this repo?](https://github.com/BionicFramework/BionicCLI)
+
+-- // --
+
 <div style="text-align:center"><img src="https://raw.githubusercontent.com/bmsantos/bionic/master/docs/images/logo-full.png" alt="bionic" height="150"/></div>
 
 Build web apps [Blazor](https://blazor.net) fast that run at [WASM speed](https://hackernoon.com/screamin-speed-with-webassembly-b30fac90cd92)!
